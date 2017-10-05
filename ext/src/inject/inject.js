@@ -28,8 +28,7 @@ function work() {
     });
 
     // posts
-    ($("#contentArea div[role='article']")
-    ).each(function() {
+    $("#contentArea div[role='article']").each(function() {
         let article = $(this);
         let id = article.attr('id');
         if (seenIds.has(id)) {
@@ -39,7 +38,7 @@ function work() {
 
         // .fbUserStory can be nested for e.g. "Commented on" stories on
         // the feed
-        // we're only interested in the outer stories (actual posts)
+        // we're only interested in the inner stories (actual posts)
         let userStory = (article.find('.fbUserStory')
             .not(':has(.fbUserStory)'));
         
