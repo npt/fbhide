@@ -3,6 +3,29 @@ let users;
 // Set of post and comment (DOM) IDs seen, to not check the user again.
 let seenIds = new Set();
 
+function href2user(href) {
+    // extract username from URL if present, ID if not
+    // or return null if the URL matches neither or is null
+    if (!href) {
+        return null;
+    }
+
+    // check profile.php URL first
+    let match = href.match(/profile\.php\?id=(\d*)/);
+    let username = null;
+    if (match) { // paranoia
+        return match[1];
+    } else {
+        // username
+        match = href.match(/\/\/www.facebook.com\/([^\/?]*)/);
+        if (match) {
+            return match[1];
+        }
+    }
+
+    return null;
+}
+
 function work() {
     // comments
     $('#contentArea .UFIList .UFIComment').each(function() {
@@ -16,11 +39,7 @@ function work() {
         let link = comment.find('a.UFICommentActorName');
         let name = link.text();
         let href = link.attr('href');
-        let match = href.match(/\/\/www.facebook.com\/([^\/?]*)/);
-        let username = null;
-        if (match) { // paranoia
-            username = match[1];
-        }
+        let username = href2user(href);
 
         if (users.has(name) || (username && users.has(username))) {
             hideComment(comment);
@@ -49,13 +68,7 @@ function work() {
         }
         let name = link.text();
         let href = link.attr('href');
-        let username = null;
-        if (href) { // paranoia
-            let match = href.match(/\/\/www.facebook.com\/([^\/?]*)/);
-            if (match) {
-                username = match[1];
-            }
-        }
+        let username = href2user(href);
 
         if (users.has(name) || (username && users.has(username))) {
             hidePost(userStory);
@@ -71,13 +84,7 @@ function work() {
                 let link = sharedPostElts.eq(0).find('a');
                 let name = link.text();
                 let href = link.attr('href');
-                let username = null;
-                if (href) { // paranoia
-                    let match = href.match(/\/\/www.facebook.com\/([^\/?]*)/);
-                    if (match) {
-                        username = match[1];
-                    }
-                }
+                let username = href2user(href);
 
                 if (users.has(name) || (username && users.has(username))) {
                     hideSharedPost(sharedPostElts.eq(2));
