@@ -27,9 +27,11 @@ $(document).ready(function() {
         }
     });
 
-    var save = function() {
+    $('button#cancel').on('click', function() {
+        window.close();
+    });
+    $('button#ok').on('click', function() {
         chrome.storage.sync.set({'users': parse(textarea.val())});
-    }
-
-    textarea.on('input', save);
+        window.close();
+    });
 });
