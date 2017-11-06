@@ -1,8 +1,8 @@
 {
   "name": "FB Hide User",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "manifest_version": 2,
-  "description": "Lets you hide a Facebook user's posts and comments without blocking them (and becoming unable to see that they have commented etc.)",
+  "description": "Lets you hide the content of a Facebook user's posts and comments without blocking them.",
   "icons": {
     "16": "icons/icon16.png",
     "48": "icons/icon48.png",
