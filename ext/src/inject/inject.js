@@ -97,9 +97,12 @@ function work() {
 function hideComment(comment) {
     let body = comment.find('.UFICommentBody');
     body.hide();
+    let content = comment.find('.UFICommentActorAndBody ~ *');
+    content.hide();
     let link = $("<a class='FBHideLink'>[hidden]</a>");
     link.on('click', function() {
         body.show();
+        content.show();
         link.remove();
     });
     body.before(link);
