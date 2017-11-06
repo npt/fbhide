@@ -132,20 +132,21 @@ function hideSharedPost(content) {
 }
 
 chrome.extension.sendMessage({}, function(response) {
-	let readyStateCheckInterval = setInterval(function() {
-	if (document.readyState === "complete") {
-		clearInterval(readyStateCheckInterval);
+    chrome.storage.sync.get('users', function(items) {
+        if ('users' in items) {
+            users = new Set(items['users']);
 
-        chrome.storage.sync.get('users', function(items) {
-            if ('users' in items) {
-                users = new Set(items['users']);
-
-                // HACK: don't try to intercept loading of new posts/comments
-                // just poll
+            let readyStateCheckInterval = setInterval(function() {
                 work();
-                setInterval(work, 1000);
-            }
-        });
-	}
-	}, 10);
+
+                if (document.readyState === "complete") {
+                    clearInterval(readyStateCheckInterval);
+                    // HACK: don't try to intercept loading of new content
+                    // just poll
+                    work();
+                    setInterval(work, 1000);
+                }
+            }, 10);
+        }
+    });
 });
