@@ -110,7 +110,7 @@ function hideComment(comment) {
 
 function hidePost(contentWrapper) {
     let content = contentWrapper.find('.userContent');
-    let elts = content.children();
+    let elts = content.children().add(content.nextAll());
     elts.hide();
     let link = $("<p><a class='FBHideLink'>[hidden]</a></p>");
     link.on('click', function() {
