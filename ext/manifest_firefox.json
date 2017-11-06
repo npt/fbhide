@@ -1,0 +1,40 @@
+{
+  "name": "FB Hide User",
+  "version": "0.1.0",
+  "manifest_version": 2,
+  "description": "Lets you hide the content of a Facebook user's posts and comments without blocking them.",
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "default_locale": "en",
+  "options_ui":  {
+    "page": "src/options/index.html",
+    "chrome_style": true,
+    "browser_style": true
+  },
+  "permissions": [
+    "storage",
+    "https://www.facebook.com/*"
+  ],
+  "content_scripts": [
+    {
+      "matches": [
+        "https://www.facebook.com/*"
+      ],
+      "js": [
+        "js/jquery/jquery.min.js",
+        "src/inject/inject.js"
+      ],
+      "css": [
+        "src/inject/inject.css"
+      ]
+    }
+  ],
+  "applications": {
+      "gecko": {
+          "id": "{0c52fef8-c2e9-11e7-a75b-531206855b45}"
+      }
+  }
+}

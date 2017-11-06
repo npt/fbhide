@@ -27,11 +27,20 @@ $(document).ready(function() {
         }
     });
 
-    $('button#cancel').on('click', function() {
-        window.close();
-    });
-    $('button#ok').on('click', function() {
+    var save = function() {
         chrome.storage.sync.set({'users': parse(textarea.val())});
-        window.close();
-    });
+    };
+
+    if (navigator.userAgent.indexOf("Firefox") > -1) {
+        $('#buttons').hide();
+        textarea.on('input', save);
+    } else {
+        $('button#cancel').on('click', function() {
+            window.close();
+        });
+        $('button#ok').on('click', function() {
+            save();
+            window.close();
+        });
+    }
 });

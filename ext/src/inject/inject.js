@@ -131,22 +131,20 @@ function hideSharedPost(content) {
     content.prepend(link);
 }
 
-chrome.extension.sendMessage({}, function(response) {
-    chrome.storage.sync.get('users', function(items) {
-        if ('users' in items) {
-            users = new Set(items['users']);
+chrome.storage.sync.get('users', function(items) {
+    if ('users' in items) {
+        users = new Set(items['users']);
 
-            let readyStateCheckInterval = setInterval(function() {
+        let readyStateCheckInterval = setInterval(function() {
+            work();
+
+            if (document.readyState === "complete") {
+                clearInterval(readyStateCheckInterval);
+                // HACK: don't try to intercept loading of new content
+                // just poll
                 work();
-
-                if (document.readyState === "complete") {
-                    clearInterval(readyStateCheckInterval);
-                    // HACK: don't try to intercept loading of new content
-                    // just poll
-                    work();
-                    setInterval(work, 1000);
-                }
-            }, 10);
-        }
-    });
+                setInterval(work, 1000);
+            }
+        }, 10);
+    }
 });
