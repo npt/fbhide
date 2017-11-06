@@ -55,13 +55,13 @@ function work() {
         }
         seenIds.add(id);
 
-        // .fbUserStory can be nested for e.g. "Commented on" stories on
+        // .userContentWrapper can be nested for e.g. "Commented on" stories on
         // the feed
         // we're only interested in the inner stories (actual posts)
-        let userStory = (article.find('.fbUserStory')
-            .not(':has(.fbUserStory)'));
+        let contentWrapper = (article.find('.userContentWrapper')
+            .not(':has(.userContentWrapper)'));
         
-        let link = userStory.find('h5 a:first, h6 a:first');
+        let link = contentWrapper.find('h5 a:first, h6 a:first');
         if (link.length > 1) {
             // skip "X and Y shared Z" articles
             return;
@@ -71,11 +71,11 @@ function work() {
         let username = href2user(href);
 
         if (users.has(name) || (username && users.has(username))) {
-            hidePost(userStory);
+            hidePost(contentWrapper);
         }
 
         // look for shared post contents
-        let sharedPost = userStory.find('.userContent + div');
+        let sharedPost = contentWrapper.find('.userContent + div');
         if (sharedPost.length) {
             // hacky
             let sharedPostElts = sharedPost.find(
@@ -108,8 +108,8 @@ function hideComment(comment) {
     body.before(link);
 }
 
-function hidePost(userStory) {
-    let content = userStory.find('.userContent');
+function hidePost(contentWrapper) {
+    let content = contentWrapper.find('.userContent');
     let elts = content.children();
     elts.hide();
     let link = $("<p><a class='FBHideLink'>[hidden]</a></p>");
